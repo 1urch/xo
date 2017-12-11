@@ -1,4 +1,7 @@
 <?php
+
+use Lurch\XO\Middleware\MessageBusValidationMiddleware;
+
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
 use SimpleBus\Message\CallableResolver\CallableMap;
@@ -9,29 +12,30 @@ use SimpleBus\Message\Name\ClassBasedNameResolver;
 
 use Symfony\Component\Validator\Validation;
 
-$app['validator'] = function ($app)
-{
-	$validator = Validation::createValidatorBuilder()
-		->enableAnnotationMapping()
-		->getValidator();
-
-	return $validator;
-};
-
-$app['command_bus'] = function ($app) 
+$app['commandBus'] = function ($app)
 {
   $commandBus = new MessageBusSupportingMiddleware();
 
-  $commandHandlerMap = new CallableMap(
-  	[	
-      // Command::class => 'service.name'
-    ],
-    new ServiceLocatorAwareCallableResolver(
-    	function ($service) use ($app) {
-    	  return $app[$service];
-    	}
-    )
+  $map = [
+    // Command::class => 'service.name'
+  ];
+
+  $resolver = new ServiceLocatorAwareCallableResolver(
+    function ($service) use ($app) {
+      return $app[$service];
+    }
   );
+
+  $commandHandlerMap = new CallableMap($map, $resolver);
+
+  $app['validator'] = function ($app)
+  {
+    $validator = Validation::createValidatorBuilder()
+      ->enableAnnotationMapping()
+      ->getValidator();
+
+    return $validator;
+  };
 
   $commandBus->appendMiddleware(
     new DelegatesToMessageHandlerMiddleware(
@@ -42,7 +46,7 @@ $app['command_bus'] = function ($app)
   );
 
   $commandBus->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
-  $commandBus->prependMiddleware(new ValidationMiddleware($app['validator']));
+  $commandBus->prependMiddleware(new MessageBusValidationMiddleware($app['validator']));
   
   return $commandBus;
 };
