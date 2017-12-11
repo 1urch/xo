@@ -1,0 +1,11 @@
+/.idea/
+vendor/
+/docker/data/*
+/docker/logs/*
+!/docker/data/.gitkeep
+!/docker/logs/.gitkeep
+
+/app/cache/
+/app/logs/
+
+/coverage/
