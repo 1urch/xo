@@ -2,11 +2,10 @@
 
 namespace Lurch\XO\Entity;
 
-use Ramsey\Uuid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="")
+ * @ORM\Entity(repositoryClass="Lurch\XO\Repository\PlayerRepository")
  * @ORM\Table(name="")
  */
 class Player
@@ -14,6 +13,8 @@ class Player
 
   /**
    * @var string
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="NONE")
    * @ORM\Column(type="guid")
    */
   private $id;

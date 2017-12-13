@@ -20,6 +20,6 @@ class CreateGameCommandHandler
 
   public function handle(CreateGameCommand $createGameCommand)
   {
-
+    throw new \Exception('Handler exception');
   }
 }

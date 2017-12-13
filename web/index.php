@@ -8,6 +8,6 @@ $app = require __DIR__ . '/../app/app.php';
 
 require __DIR__ . '/../app/config/dev.php';
 require __DIR__ . '/../app/services.php';
-require __DIR__ . '/../app/routes.php';
+require __DIR__ . '/../app/controllers.php';
 
 $app->run();

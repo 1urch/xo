@@ -3,7 +3,6 @@
 namespace Lurch\XO\Common;
 
 use Lurch\XO\Exception\MapperException;
-
 /**
  * Class JsonMapperFacade
  * @package Lurch\XO\Common
