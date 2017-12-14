@@ -119,6 +119,8 @@ class GameController
     $this->makeTurnCommand->x = $request->request->get('x');
     $this->makeTurnCommand->y = $request->request->get('y');
 
+    $this->commandBus->handle($this->makeTurnCommand);
+
     return $this->response->success();
   }
 }

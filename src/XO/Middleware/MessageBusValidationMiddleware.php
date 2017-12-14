@@ -35,8 +35,8 @@ class MessageBusValidationMiddleware implements MessageBusMiddleware
     $violations = $this->validator->validate($message);
 
     if (count($violations) != 0) {
-      $error = $violations->get(0)->getMessage();
-      throw new BadRequestHttpException($error);
+      // TODO: Multi Exception build from violations
+      throw new BadRequestHttpException('Data validation error');
     }
 
     $next($message);
