@@ -2,20 +2,15 @@
 
 namespace Lurch\XO\Command;
 
-/**
- * Class CreateGameCommand
- * @package Lurch\XO\Command
- */
-class CreateGameCommand
+class JoinGameCommand
 {
-  /**
+  /*
    * @var string
    */
-  public $id;
+  public $game_id;
 
   /**
    * @var string
    */
   public $player_id;
-
 }

@@ -5,7 +5,7 @@ namespace Lurch\XO\Command;
 use Lurch\XO\Repository\GameRepository;
 use Lurch\XO\Repository\PlayerRepository;
 
-class CreateGameCommandHandler
+class MakeTurnCommandHandler
 {
   private $gameRepository;
   private $playerRepository;
@@ -16,8 +16,9 @@ class CreateGameCommandHandler
     $this->playerRepository = $playerRepository;
   }
 
-  public function handle(CreateGameCommand $createGameCommand)
+  public function handle(MakeTurnCommand $makeTurnCommand)
   {
-//    throw new \Exception($createGameCommand->id);
+    //
   }
+
 }

@@ -17,6 +17,7 @@ use Ramsey\Uuid\UuidFactory;
 
 use Lurch\XO\Middleware\MessageBusValidationMiddleware;
 use Lurch\XO\Common\JsonMapperFacade;
+use Lurch\XO\Common\ApiResponseFactory;
 
 use Lurch\XO\Repository\GameRepository;
 use Lurch\XO\Repository\PlayerRepository;
@@ -24,6 +25,10 @@ use Lurch\XO\Entity\Game;
 use Lurch\XO\Entity\Player;
 use Lurch\XO\Command\CreateGameCommand;
 use Lurch\XO\Command\CreateGameCommandHandler;
+use Lurch\XO\Command\JoinGameCommand;
+use Lurch\XO\Command\JoinGameCommandHandler;
+use Lurch\XO\Command\MakeTurnCommand;
+use Lurch\XO\Command\MakeTurnCommandHandler;
 
 
 $app['service.game.create'] = function ($app) {
@@ -37,6 +42,28 @@ $app['service.game.create'] = function ($app) {
   return new CreateGameCommandHandler($gameRepository, $playerRepository);
 };
 
+$app['service.game.join'] = function ($app) {
+  /** @var EntityManager $em */
+  $em = $app['orm.em'];
+  /** @var GameRepository $gameRepository */
+  $gameRepository = $em->getRepository(Game::class);
+  /** @var PlayerRepository $playerRepository */
+  $playerRepository = $em->getRepository(Player::class);
+
+  return new JoinGameCommandHandler($gameRepository, $playerRepository);
+};
+
+$app['service.game.turn'] = function ($app) {
+  /** @var EntityManager $em */
+  $em = $app['orm.em'];
+  /** @var GameRepository $gameRepository */
+  $gameRepository = $em->getRepository(Game::class);
+  /** @var PlayerRepository $playerRepository */
+  $playerRepository = $em->getRepository(Player::class);
+
+  return new MakeTurnCommandHandler($gameRepository, $playerRepository);
+};
+
 
 /** commandBus */
 $app['commandBus'] = function ($app) {
@@ -44,7 +71,9 @@ $app['commandBus'] = function ($app) {
   $commandBus = new MessageBusSupportingMiddleware();
 
   $map = [
-    CreateGameCommand::class => 'service.game.create'
+    CreateGameCommand::class => 'service.game.create',
+    JoinGameCommand::class => 'service.game.join',
+    MakeTurnCommand::class => 'service.game.turn',
   ];
 
   $resolver = new ServiceLocatorAwareCallableResolver(
@@ -92,4 +121,9 @@ $app['uuid'] = function () {
   /** @var UuidFactory $uuidFactory */
   $uuidFactory = new UuidFactory();
   return $uuidFactory;
+};
+
+$app['responseFactory'] = function () {
+  $responseFactory = new ApiResponseFactory();
+  return $responseFactory;
 };
