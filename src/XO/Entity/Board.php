@@ -2,19 +2,21 @@
 
 namespace Lurch\XO\Entity;
 
-use Ramsey\Uuid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 
 use Lurch\XO\Exception\TileDoesNotExistsException;
 use Lurch\XO\Exception\UnableToSetTileException;
 
 /**
- * @ORM\Entity(repositoryClass="")
+ * @ORM\Entity(repositoryClass="Lurch\XO\Repository\BoardRepository")
  * @ORM\Table(name="")
  */
 class Board
 {
   /**
+   * @var string
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="NONE")
    * @ORM\Column(type="guid")
    */
   private $id;

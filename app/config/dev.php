@@ -15,13 +15,13 @@ $app->register(
   ]
 );
 
-$app->register(
-  new WebProfilerServiceProvider(),
-  [
-    'profiler.cache_dir' => __DIR__ . '/../cache/profiler'
-  ]
-);
+//$app->register(
+//  new WebProfilerServiceProvider(),
+//  [
+//    'profiler.cache_dir' => __DIR__ . '/../cache/profiler'
+//  ]
+//);
+//
+//$app->register(new SaxulumWebProfilerProvider());
 
-$app->register(new SaxulumWebProfilerProvider());
-
-Debug::enable();
+//Debug::enable();

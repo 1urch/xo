@@ -2,13 +2,8 @@
 
 namespace Lurch\XO\Entity;
 
-use Lurch\XO\Entity\Player;
-
-use Ramsey\Uuid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
-use Lurch\XO\Entity\Board;
 
 use Lurch\XO\Exception\NumberOfPlayersException;
 use Lurch\XO\Exception\WrongStatusException;
@@ -16,7 +11,7 @@ use Lurch\XO\Exception\AlreadyJoinedException;
 use Lurch\XO\Exception\ActionDeniedException;
 
 /**
- * @ORM\Entity(repositoryClass="")
+ * @ORM\Entity(repositoryClass="Lurch\XO\Repository\GameRepository")
  * @ORM\Table(name="")
  */
 class Game
@@ -27,14 +22,16 @@ class Game
   const STATUS_COMPLETE = 'complete';
 
   /**
-   * @var \Ramsey\Uuid\Uuid
+   * @var string
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="NONE")
    * @ORM\Column(type="guid")
    */
   private $id;
 
   /**
    * @var ArrayCollection
-   * @ORM\ManyToMany(targetEntity="Lurch\Heights\Entity\Player")
+   * @ORM\ManyToMany(targetEntity="Lurch\XO\Entity\Player")
    * @ORM\JoinTable(
    *  name="ht_games_players",
    *  joinColumns={@ORM\JoinColumn(name="game_id", referencedColumnName="id")},
@@ -45,7 +42,7 @@ class Game
 
   /**
    * @var Board;
-   * @ORM\OneToOne(targetEntity="Lurch\Heights\Entity\Board")
+   * @ORM\OneToOne(targetEntity="Lurch\XO\Entity\Board")
    * @ORM\JoinColumn(name="board_id", referencedColumnName="id")
    */
   private $board;
@@ -53,7 +50,7 @@ class Game
   /**
    * @var Player
    * @ORM\Column(nullable=true)
-   * @ORM\OneToOne(targetEntity="Lurch\Heights\Entity\Player")
+   * @ORM\OneToOne(targetEntity="Lurch\XO\Entity\Player")
    * @ORM\JoinColumn(name="winner_id", referencedColumnName="id")
    */
   private $winner = null;
