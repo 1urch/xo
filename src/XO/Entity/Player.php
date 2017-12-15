@@ -5,7 +5,7 @@ namespace Lurch\XO\Entity;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="Lurch\XO\Repository\PlayerRepository")
- * @ORM\Table(name="")
+ * @ORM\Table(name="xo_player")
  */
 class Player
 {

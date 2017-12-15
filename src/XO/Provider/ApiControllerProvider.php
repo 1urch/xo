@@ -2,8 +2,10 @@
 
 namespace Lurch\XO\Provider;
 
+use Lurch\XO\Controller\GameController;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
+use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 
 class ApiControllerProvider implements ControllerProviderInterface
@@ -11,10 +13,15 @@ class ApiControllerProvider implements ControllerProviderInterface
 
   public function connect(Application $app)
   {
+    /** @var ControllerCollection $controllers */
     $controllers = $app['controllers_factory'];
     $controllers->post('/game/create', 'game.controller:create');
     $controllers->post('/game/{id}/join', 'game.controller:join');
-    $controllers->post('/game/{id}/turn', 'game.controller:turn');
+    $controllers->post('/game/{id}/turn', function (Request $request) use ($app) {
+      /** @var GameController $response */
+      $response = $app['game.controller']->turn($request, $app['']);
+      return $response;
+    });
 
     // Exception handler prototype
     $app->error(function (\Exception $e) use ($app) {

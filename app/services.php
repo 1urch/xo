@@ -18,41 +18,36 @@ use Lurch\XO\Common\{JsonMapperFacade, ApiResponseFactory};
 
 use Lurch\XO\Entity\{Game, Player};
 use Lurch\XO\Repository\{GameRepository, PlayerRepository};
+use Lurch\XO\Query\{GamesListQuery};
 use Lurch\XO\Command\{CreateGameCommand, JoinGameCommand, MakeTurnCommand};
 use Lurch\XO\Command\{CreateGameCommandHandler, JoinGameCommandHandler, MakeTurnCommandHandler};
 
-
-$app['service.game.create'] = function ($app) {
-  /** @var EntityManager $em */
-  $em = $app['orm.em'];
-  /** @var GameRepository $gameRepository */
-  $gameRepository = $em->getRepository(Game::class);
-  /** @var PlayerRepository $playerRepository */
-  $playerRepository = $em->getRepository(Player::class);
-
-  return new CreateGameCommandHandler($gameRepository, $playerRepository);
+$app['repository.game'] = function ($app) {
+  return $app['orm.em']->getRepository(Game::class);
 };
 
-$app['service.game.join'] = function ($app) {
-  /** @var EntityManager $em */
-  $em = $app['orm.em'];
-  /** @var GameRepository $gameRepository */
-  $gameRepository = $em->getRepository(Game::class);
-  /** @var PlayerRepository $playerRepository */
-  $playerRepository = $em->getRepository(Player::class);
-
-  return new JoinGameCommandHandler($gameRepository, $playerRepository);
+$app['repository.player'] = function ($app) {
+  return $app['orm.em']->getRepository(Player::class);
 };
 
-$app['service.game.turn'] = function ($app) {
-  /** @var EntityManager $em */
-  $em = $app['orm.em'];
-  /** @var GameRepository $gameRepository */
-  $gameRepository = $em->getRepository(Game::class);
-  /** @var PlayerRepository $playerRepository */
-  $playerRepository = $em->getRepository(Player::class);
+$app['command.game.create'] = function ($app) {
+  return new CreateGameCommandHandler($app['repository.game'], $app['repository.game']);
+};
 
-  return new MakeTurnCommandHandler($gameRepository, $playerRepository);
+$app['command.game.join'] = function ($app) {
+  return new JoinGameCommandHandler($app['repository.game'], $app['repository.game']);
+};
+
+$app['command.game.turn'] = function ($app) {
+  return new MakeTurnCommandHandler($app['repository.game'], $app['repository.game']);
+};
+
+$app['query.game.list'] = function ($app) {
+  return new GamesListQuery($app['']);
+};
+
+$app['query.game.status'] = function ($app) {
+
 };
 
 
@@ -62,9 +57,9 @@ $app['commandBus'] = function ($app) {
   $commandBus = new MessageBusSupportingMiddleware();
 
   $map = [
-    CreateGameCommand::class => 'service.game.create',
-    JoinGameCommand::class => 'service.game.join',
-    MakeTurnCommand::class => 'service.game.turn',
+    CreateGameCommand::class => 'command.game.create',
+    JoinGameCommand::class => 'command.game.join',
+    MakeTurnCommand::class => 'command.game.turn',
   ];
 
   $resolver = new ServiceLocatorAwareCallableResolver(

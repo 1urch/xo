@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Lurch\XO\Exception\{NumberOfPlayersException, WrongStatusException, AlreadyJoinedException, ActionDeniedException};
 /**
  * @ORM\Entity(repositoryClass="Lurch\XO\Repository\GameRepository")
- * @ORM\Table(name="")
+ * @ORM\Table(name="xo_game")
  */
 class Game
 {
@@ -29,7 +29,7 @@ class Game
    * @var ArrayCollection
    * @ORM\ManyToMany(targetEntity="Lurch\XO\Entity\Player")
    * @ORM\JoinTable(
-   *  name="ht_games_players",
+   *  name="xo_games_players",
    *  joinColumns={@ORM\JoinColumn(name="game_id", referencedColumnName="id")},
    *  inverseJoinColumns={@ORM\JoinColumn(name="player_id", referencedColumnName="id")}
    * )
@@ -58,7 +58,7 @@ class Game
   private $status;
 
   /**
-   * @ORM\Column(type="integer")
+   * @ORM\Column(name="turns", type="integer")
    */
   private $turnsMade = 0;
 

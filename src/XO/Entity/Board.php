@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Lurch\XO\Exception\{TileDoesNotExistsException, UnableToSetTileException};
 /**
  * @ORM\Entity(repositoryClass="Lurch\XO\Repository\BoardRepository")
- * @ORM\Table(name="")
+ * @ORM\Table(name="xo_board")
  */
 class Board
 {
