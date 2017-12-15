@@ -17,10 +17,7 @@ class GameController
    * @var MessageBus
    */
   private $commandBus;
-  /**
-   * @var JsonMapperInterface
-   */
-  private $mapper;
+
   /**
    * @var UuidFactory
    */
@@ -38,10 +35,9 @@ class GameController
    * @param JsonMapperInterface $mapper
    * @param UuidFactory $uuidFactory
    */
-  public function __construct(MessageBus $commandBus, JsonMapperInterface $mapper, UuidFactory $uuidFactory, ApiResponseFactoryInterface $response)
+  public function __construct(MessageBus $commandBus, UuidFactory $uuidFactory, ApiResponseFactoryInterface $response)
   {
     $this->commandBus = $commandBus;
-    $this->mapper = $mapper;
     $this->uuidFactory = $uuidFactory;
     $this->response = $response;
   }
@@ -85,5 +81,11 @@ class GameController
     $this->commandBus->handle($command);
 
     return $this->response->success();
+  }
+
+  public function list()
+  {
+
+
   }
 }

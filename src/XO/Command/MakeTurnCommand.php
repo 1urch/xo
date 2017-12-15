@@ -38,7 +38,7 @@ class MakeTurnCommand
    */
   public $y;
 
-  public function __construct(string $gameId, string $playerId, $x, $y)
+  public function __construct(string $gameId, string $playerId, int $x = null, int $y = null)
   {
     $this->gameId = $gameId;
     $this->playerId = $playerId;
