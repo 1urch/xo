@@ -1,9 +1,7 @@
 <?php
 
-use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
-use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
-use SimpleBus\Message\CallableResolver\CallableMap;
-use SimpleBus\Message\CallableResolver\ServiceLocatorAwareCallableResolver;
+use SimpleBus\Message\Bus\Middleware\{MessageBusSupportingMiddleware, FinishesHandlingMessageBeforeHandlingNext};
+use SimpleBus\Message\CallableResolver\{CallableMap, ServiceLocatorAwareCallableResolver};
 use SimpleBus\Message\Handler\DelegatesToMessageHandlerMiddleware;
 use SimpleBus\Message\Handler\Resolver\NameBasedMessageHandlerResolver;
 use SimpleBus\Message\Name\ClassBasedNameResolver;
@@ -16,19 +14,12 @@ use Doctrine\ORM\EntityManager;
 use Ramsey\Uuid\UuidFactory;
 
 use Lurch\XO\Middleware\MessageBusValidationMiddleware;
-use Lurch\XO\Common\JsonMapperFacade;
-use Lurch\XO\Common\ApiResponseFactory;
+use Lurch\XO\Common\{JsonMapperFacade, ApiResponseFactory};
 
-use Lurch\XO\Repository\GameRepository;
-use Lurch\XO\Repository\PlayerRepository;
-use Lurch\XO\Entity\Game;
-use Lurch\XO\Entity\Player;
-use Lurch\XO\Command\CreateGameCommand;
-use Lurch\XO\Command\CreateGameCommandHandler;
-use Lurch\XO\Command\JoinGameCommand;
-use Lurch\XO\Command\JoinGameCommandHandler;
-use Lurch\XO\Command\MakeTurnCommand;
-use Lurch\XO\Command\MakeTurnCommandHandler;
+use Lurch\XO\Entity\{Game, Player};
+use Lurch\XO\Repository\{GameRepository, PlayerRepository};
+use Lurch\XO\Command\{CreateGameCommand, JoinGameCommand, MakeTurnCommand};
+use Lurch\XO\Command\{CreateGameCommandHandler, JoinGameCommandHandler, MakeTurnCommandHandler};
 
 
 $app['service.game.create'] = function ($app) {

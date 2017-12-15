@@ -2,9 +2,7 @@
 
 namespace Lurch\XO\Command;
 
-use Lurch\XO\Repository\GameRepository;
-use Lurch\XO\Repository\PlayerRepository;
-
+use Lurch\XO\Repository\{GameRepository, PlayerRepository};
 /**
  * Class MakeTurnCommandHandler
  * @package Lurch\XO\Command

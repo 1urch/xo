@@ -5,11 +5,7 @@ namespace Lurch\XO\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Lurch\XO\Exception\NumberOfPlayersException;
-use Lurch\XO\Exception\WrongStatusException;
-use Lurch\XO\Exception\AlreadyJoinedException;
-use Lurch\XO\Exception\ActionDeniedException;
-
+use Lurch\XO\Exception\{NumberOfPlayersException, WrongStatusException, AlreadyJoinedException, ActionDeniedException};
 /**
  * @ORM\Entity(repositoryClass="Lurch\XO\Repository\GameRepository")
  * @ORM\Table(name="")

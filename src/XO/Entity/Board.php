@@ -4,9 +4,7 @@ namespace Lurch\XO\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use Lurch\XO\Exception\TileDoesNotExistsException;
-use Lurch\XO\Exception\UnableToSetTileException;
-
+use Lurch\XO\Exception\{TileDoesNotExistsException, UnableToSetTileException};
 /**
  * @ORM\Entity(repositoryClass="Lurch\XO\Repository\BoardRepository")
  * @ORM\Table(name="")

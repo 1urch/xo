@@ -21,6 +21,11 @@ class CreateGameCommand
    * @Assert\NotBlank()
    * @Assert\Uuid
    */
-  public $player_id;
+  public $playerId;
 
+  public function __construct(string $id, string $playerId)
+  {
+    $this->id = $id;
+    $this->playerId = $playerId;
+  }
 }

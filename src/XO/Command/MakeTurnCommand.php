@@ -15,14 +15,14 @@ class MakeTurnCommand
    * @Assert\NotBlank()
    * @Assert\Uuid
    */
-  public $game_id;
+  public $gameId;
 
   /**
    * @var string
    * @Assert\NotBlank()
    * @Assert\Uuid
    */
-  public $player_id;
+  public $playerId;
 
   /**
    * @var int
@@ -37,5 +37,13 @@ class MakeTurnCommand
    * @Assert\NotBlank()
    */
   public $y;
+
+  public function __construct(string $gameId, string $playerId, $x, $y)
+  {
+    $this->gameId = $gameId;
+    $this->playerId = $playerId;
+    $this->x = $x;
+    $this->y = $y;
+  }
 
 }

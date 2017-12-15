@@ -2,19 +2,13 @@
 
 namespace Lurch\XO\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\{Request, JsonResponse};
+
+use Lurch\XO\Common\{JsonMapperInterface, ApiResponseFactoryInterface};
+use Lurch\XO\Command\{CreateGameCommand, JoinGameCommand, MakeTurnCommand};
 
 use SimpleBus\Message\Bus\MessageBus;
 use Ramsey\Uuid\UuidFactory;
-
-
-use Lurch\XO\Common\JsonMapperInterface;
-use Lurch\XO\Command\CreateGameCommand;
-use Lurch\XO\Command\JoinGameCommand;
-use Lurch\XO\Command\MakeTurnCommand;
-
-use Lurch\XO\Common\ApiResponseFactoryInterface;
 
 class GameController
 {
@@ -37,20 +31,6 @@ class GameController
    */
   private $response;
 
-  /**
-   * @var CreateGameCommand
-   */
-  private $createGameCommand;
-
-  /**
-   * @var JoinGameCommand
-   */
-  private $joinGameCommand;
-
-  /**
-   * @var MakeTurnCommand
-   */
-  private $makeTurnCommand;
 
   /**
    * GameController constructor.
@@ -67,16 +47,6 @@ class GameController
   }
 
   /**
-   * @param CreateGameCommand $createGameCommand
-   */
-  public function setUpCommands(CreateGameCommand $createGameCommand, JoinGameCommand $joinGameGommand, MakeTurnCommand $makeTurnCommand)
-  {
-    $this->createGameCommand = $createGameCommand;
-    $this->joinGameCommand = $joinGameGommand;
-    $this->makeTurnCommand = $makeTurnCommand;
-  }
-
-  /**
    * @param Request $request
    * @return JsonResponse
    */
@@ -84,13 +54,10 @@ class GameController
   {
     $uuid = $this->uuidFactory->uuid4();
 
-    $this->createGameCommand->id = $uuid;
-    $this->createGameCommand->player_id = $request->request->get('token');
-
-    $this->commandBus->handle($this->createGameCommand);
+    $command = new CreateGameCommand($uuid, $request->request->get('token'));
+    $this->commandBus->handle($command);
 
     $data = ['id' => $uuid];
-
     return $this->response->success($data);
   }
 
@@ -100,10 +67,8 @@ class GameController
    */
   public function join(Request $request, string $id): JsonResponse
   {
-    $this->joinGameCommand->player_id = $request->request->get('token');
-    $this->joinGameCommand->game_id = $id;
-
-    $this->commandBus->handle($this->joinGameCommand);
+    $command = new JoinGameCommand($request->request->get('token'), $id);
+    $this->commandBus->handle($command);
 
     return $this->response->success();
   }
@@ -114,12 +79,10 @@ class GameController
    */
   public function turn(Request $request, string $id): JsonResponse
   {
-    $this->makeTurnCommand->player_id = $request->request->get('token');
-    $this->makeTurnCommand->game_id = $id;
-    $this->makeTurnCommand->x = $request->request->get('x');
-    $this->makeTurnCommand->y = $request->request->get('y');
-
-    $this->commandBus->handle($this->makeTurnCommand);
+    $x = $request->request->get('x');
+    $y = $request->request->get('y');
+    $command = new MakeTurnCommand($id, $request->request->get('token'), $x, $y);
+    $this->commandBus->handle($command);
 
     return $this->response->success();
   }

@@ -15,12 +15,18 @@ class JoinGameCommand
    * @Assert\NotBlank()
    * @Assert\Uuid
    */
-  public $game_id;
+  public $gameId;
 
   /**
    * @var string
    * @Assert\NotBlank()
    * @Assert\Uuid
    */
-  public $player_id;
+  public $playerId;
+
+  public function __construct(string $gameId, string $playerId)
+  {
+    $this->gameId = $gameId;
+    $this->playerId = $playerId;
+  }
 }

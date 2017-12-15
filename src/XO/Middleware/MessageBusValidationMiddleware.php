@@ -30,7 +30,7 @@ class MessageBusValidationMiddleware implements MessageBusMiddleware
    * @param object $message
    * @param callable $next
    */
-  public function handle($message, callable $next)
+  public function handle($message, callable $next): void
   {
     $violations = $this->validator->validate($message);
 

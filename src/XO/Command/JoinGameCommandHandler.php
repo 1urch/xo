@@ -2,9 +2,7 @@
 
 namespace Lurch\XO\Command;
 
-use Lurch\XO\Repository\GameRepository;
-use Lurch\XO\Repository\PlayerRepository;
-
+use Lurch\XO\Repository\{GameRepository, PlayerRepository};
 /**
  * Class JoinGameCommandHandler
  * @package Lurch\XO\Command
