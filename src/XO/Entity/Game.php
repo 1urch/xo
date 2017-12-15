@@ -58,7 +58,7 @@ class Game
   private $status;
 
   /**
-   * @ORM\Column(type="integer")
+   * @ORM\Column(name="turns", type="integer")
    */
   private $turnsMade = 0;
 

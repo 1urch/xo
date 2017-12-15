@@ -2,9 +2,7 @@
 
 namespace Lurch\XO\Query;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
-
 /**
  * Class GamesListQuery
  * @package Lurch\XO\Query
@@ -12,7 +10,7 @@ use Doctrine\ORM\EntityManager;
 class GamesListQuery
 {
   /**
-   * @var QueryBuilder
+   * @var EntityManager
    */
   private $em;
 

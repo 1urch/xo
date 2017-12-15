@@ -31,7 +31,7 @@ services:
     restart: always
     environment:
         - MYSQL_ROOT_PASSWORD=sandbox
-        - MYSQL_USER=cointainer
+        - MYSQL_USER=xo
         - MYSQL_PASSWORD=sandbox
     ports:
         - "3306:3306"
