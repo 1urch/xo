@@ -38,8 +38,7 @@ class Game
 
   /**
    * @var Board;
-   * @ORM\OneToOne(targetEntity="Lurch\XO\Entity\Board")
-   * @ORM\JoinColumn(name="board_id", referencedColumnName="id")
+   * @ORM\Embedded(class="Board", columnPrefix=false)
    */
   private $board;
 

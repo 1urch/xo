@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\{Request, JsonResponse};
 
 use Lurch\XO\Common\{JsonMapperInterface, ApiResponseFactoryInterface};
 use Lurch\XO\Command\{CreateGameCommand, JoinGameCommand, MakeTurnCommand};
+use Lurch\XO\Query\{GamesListQuery};
 
 use SimpleBus\Message\Bus\MessageBus;
 use Ramsey\Uuid\UuidFactory;
@@ -83,9 +84,8 @@ class GameController
     return $this->response->success();
   }
 
-  public function list()
+  public function list(Request $request, GamesListQuery $gamesListQuery)
   {
-
-
+    return $this->response->success($gamesListQuery('hello'));
   }
 }

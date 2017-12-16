@@ -9,15 +9,12 @@ use SimpleBus\Message\Name\ClassBasedNameResolver;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-use Doctrine\ORM\EntityManager;
-
 use Ramsey\Uuid\UuidFactory;
 
 use Lurch\XO\Middleware\MessageBusValidationMiddleware;
 use Lurch\XO\Common\{JsonMapperFacade, ApiResponseFactory};
 
 use Lurch\XO\Entity\{Game, Player};
-use Lurch\XO\Repository\{GameRepository, PlayerRepository};
 use Lurch\XO\Query\{GamesListQuery};
 use Lurch\XO\Command\{CreateGameCommand, JoinGameCommand, MakeTurnCommand};
 use Lurch\XO\Command\{CreateGameCommandHandler, JoinGameCommandHandler, MakeTurnCommandHandler};
@@ -31,19 +28,19 @@ $app['repository.player'] = function ($app) {
 };
 
 $app['command.game.create'] = function ($app) {
-  return new CreateGameCommandHandler($app['repository.game'], $app['repository.game']);
+  return new CreateGameCommandHandler($app['orm.em'], $app['repository.player'], $app['uuid']);
 };
 
 $app['command.game.join'] = function ($app) {
-  return new JoinGameCommandHandler($app['repository.game'], $app['repository.game']);
+  return new JoinGameCommandHandler($app['repository.game'], $app['repository.player']);
 };
 
 $app['command.game.turn'] = function ($app) {
-  return new MakeTurnCommandHandler($app['repository.game'], $app['repository.game']);
+  return new MakeTurnCommandHandler($app['repository.game'], $app['repository.player']);
 };
 
 $app['query.game.list'] = function ($app) {
-  return new GamesListQuery($app['']);
+  return new GamesListQuery($app['orm.em']);
 };
 
 $app['query.game.status'] = function ($app) {
@@ -93,13 +90,6 @@ $app['validator'] = function ()
     ->getValidator();
 
   return $validator;
-};
-
-/** mapper */
-$app['mapper'] = function () {
-  /** @var JsonMapperFacade $mapper */
-  $mapper = new JsonMapperFacade();
-  return $mapper;
 };
 
 /** uuid */

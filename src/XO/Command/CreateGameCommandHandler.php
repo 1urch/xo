@@ -2,32 +2,61 @@
 
 namespace Lurch\XO\Command;
 
-use Lurch\XO\Repository\{GameRepository, PlayerRepository};
+use Doctrine\ORM\EntityManager;
+use Ramsey\Uuid\UuidFactoryInterface;
+
+use Lurch\XO\Entity\{Player};
+use Lurch\XO\Repository\PlayerRepository;
+use Lurch\XO\Exception\ObjectDoesNotExistsException;
+
 /**
  * Class CreateGameCommandHandler
  * @package Lurch\XO\Command
  */
 class CreateGameCommandHandler
 {
-  private $gameRepository;
+  /**
+   * @var EntityManager
+   */
+  private $em;
+
+  /**
+   * @var PlayerRepository
+   */
   private $playerRepository;
 
   /**
-   * CreateGameCommandHandler constructor.
-   * @param GameRepository $gameRepository
-   * @param PlayerRepository $playerRepository
+   * @var UuidFactoryInterface
    */
-  public function __construct(GameRepository $gameRepository, PlayerRepository $playerRepository)
+  private $uuidFactory;
+
+  /**
+   * CreateGameCommandHandler constructor.
+   * @param EntityManager $em
+   */
+  public function __construct(EntityManager $em, PlayerRepository $playerRepository, UuidFactoryInterface $uuidFactory)
   {
-    $this->gameRepository = $gameRepository;
+    $this->em = $em;
     $this->playerRepository = $playerRepository;
+    $this->uuidFactory = $uuidFactory;
   }
 
   /**
    * @param CreateGameCommand $createGameCommand
+   * @throws ObjectDoesNotExistsException
+   * @throws \Doctrine\ORM\OptimisticLockException
    */
   public function handle(CreateGameCommand $createGameCommand): void
   {
+    /** @var Player $player */
+    $player = $this->playerRepository->find($createGameCommand->playerId);
 
+    if (is_null($player))
+      throw new ObjectDoesNotExistsException('Can not create a game cause player does not exists');
+
+    $game = $player->createGame($createGameCommand->id);
+
+    $this->em->persist($game);
+    $this->em->flush();
   }
 }

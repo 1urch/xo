@@ -2,7 +2,6 @@
 
 namespace Lurch\XO\Provider;
 
-use Lurch\XO\Controller\GameController;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 use Silex\ControllerCollection;
@@ -17,15 +16,15 @@ class ApiControllerProvider implements ControllerProviderInterface
     $controllers = $app['controllers_factory'];
     $controllers->post('/game/create', 'game.controller:create');
     $controllers->post('/game/{id}/join', 'game.controller:join');
-    $controllers->post('/game/{id}/turn', function (Request $request) use ($app) {
-      /** @var GameController $response */
-      $response = $app['game.controller']->turn($request, $app['']);
+    $controllers->post('/game/{id}/turn', 'game.controller:turn');
+    $controllers->get('/game', function (Request $request) use ($app) {
+      $response = $app['game.controller']->list($request, $app['query.game.list']);
       return $response;
     });
 
     // Exception handler prototype
     $app->error(function (\Exception $e) use ($app) {
-      return $app->json(['error' => $e->getMessage()]);
+      return $app['responseFactory']->error($e->getMessage());
     });
 
     // Auth prototype

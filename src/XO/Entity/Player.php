@@ -48,4 +48,9 @@ class Player
   {
     return $this->name;
   }
+
+  public function createGame(string $id): Game
+  {
+    return new Game($id, new Board());
+  }
 }

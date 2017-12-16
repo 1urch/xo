@@ -2,6 +2,7 @@
 
 namespace Lurch\XO\Query;
 
+use Traversable;
 use Doctrine\ORM\EntityManager;
 /**
  * Class GamesListQuery
@@ -19,8 +20,9 @@ class GamesListQuery
     $this->em = $em;
   }
 
-  public function __invoke()
+  public function __invoke(string $message): array
   {
     //
+    return ['message' => $message];
   }
 }
