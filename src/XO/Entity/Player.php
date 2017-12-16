@@ -51,6 +51,6 @@ class Player
 
   public function createGame(string $id): Game
   {
-    return new Game($id, new Board());
+    return new Game($id, new Board(), $this);
   }
 }

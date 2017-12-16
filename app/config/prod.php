@@ -2,9 +2,9 @@
 
 $app['db.options']     = [
   'driver'   => 'pdo_mysql',
-  'user'     => '',
-  'password' => '',
-  'host'     => '',
-  'port'     => '',
-  'dbname'   => '',
+  'user'     => 'root',
+  'password' => 'sandbox',
+  'host'     => 'mysql',
+  'port'     => '3306',
+  'dbname'   => 'xo',
 ];

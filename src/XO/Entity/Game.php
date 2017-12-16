@@ -44,7 +44,7 @@ class Game
 
   /**
    * @var Player
-   * @ORM\Column(nullable=true)
+   * @ORM\Column(name="winner_id", nullable=true)
    * @ORM\OneToOne(targetEntity="Lurch\XO\Entity\Player")
    * @ORM\JoinColumn(name="winner_id", referencedColumnName="id")
    */
@@ -65,12 +65,14 @@ class Game
    * Game constructor.
    *
    */
-  public function __construct(string $id, Board $board)
+  public function __construct(string $id, Board $board, Player $player = null)
   {
     $this->id = $id;
     $this->board = $board;
     $this->players = new ArrayCollection();
     $this->status = self::STATUS_CREATED;
+
+    if (!is_null($player)) $this->join($player);
   }
 
   /**

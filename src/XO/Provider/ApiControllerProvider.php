@@ -17,6 +17,7 @@ class ApiControllerProvider implements ControllerProviderInterface
     $controllers->post('/game/create', 'game.controller:create');
     $controllers->post('/game/{id}/join', 'game.controller:join');
     $controllers->post('/game/{id}/turn', 'game.controller:turn');
+
     $controllers->get('/game', function (Request $request) use ($app) {
       $response = $app['game.controller']->list($request, $app['query.game.list']);
       return $response;
@@ -29,7 +30,7 @@ class ApiControllerProvider implements ControllerProviderInterface
         return $app['responseFactory']->error($e->getMessage());
       }
 
-      return $app['responseFactory']->error('Internal error ' . $e->getCode());
+      return $app['responseFactory']->error('Internal error');
     });
 
     // Auth prototype

@@ -2,8 +2,8 @@
 
 namespace Lurch\XO\Query;
 
-use Traversable;
 use Doctrine\ORM\EntityManager;
+use Lurch\XO\Entity\Game;
 /**
  * Class GamesListQuery
  * @package Lurch\XO\Query
@@ -22,7 +22,10 @@ class GamesListQuery
 
   public function __invoke(string $message): array
   {
-    //
-    return ['message' => $message];
+    $dql = 'SELECT game.id FROM Lurch\XO\Entity\Game game WHERE game.status = :status';
+    $query = $this->em->createQuery($dql);
+    $query->setParameter('status', Game::STATUS_CREATED);
+
+    return $query->getArrayResult();
   }
 }
