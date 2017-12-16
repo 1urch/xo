@@ -2,7 +2,7 @@
 
 namespace Lurch\XO\Exception;
 
-class AlreadyJoinedException extends \Exception
+class AlreadyJoinedException extends \DomainException
 {
 
 }

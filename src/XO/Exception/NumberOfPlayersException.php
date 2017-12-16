@@ -2,7 +2,7 @@
 
 namespace Lurch\XO\Exception;
 
-class NumberOfPlayersException extends \Exception
+class NumberOfPlayersException extends \DomainException
 {
 
 }

@@ -2,7 +2,7 @@
 
 namespace Lurch\XO\Exception;
 
-class WrongStatusException extends \Exception
+class WrongStatusException extends \DomainException
 {
 
 }

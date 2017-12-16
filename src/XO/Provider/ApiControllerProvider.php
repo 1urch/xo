@@ -24,7 +24,12 @@ class ApiControllerProvider implements ControllerProviderInterface
 
     // Exception handler prototype
     $app->error(function (\Exception $e) use ($app) {
-      return $app['responseFactory']->error($e->getMessage());
+
+      if ($e instanceof \DomainException) {
+        return $app['responseFactory']->error($e->getMessage());
+      }
+
+      return $app['responseFactory']->error('Internal error ' . $e->getCode());
     });
 
     // Auth prototype

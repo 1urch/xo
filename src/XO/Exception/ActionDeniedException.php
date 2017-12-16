@@ -2,7 +2,7 @@
 
 namespace Lurch\XO\Exception;
 
-class ActionDeniedException extends \Exception
+class ActionDeniedException extends \DomainException
 {
 
 }
