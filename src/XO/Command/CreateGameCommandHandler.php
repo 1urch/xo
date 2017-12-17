@@ -5,7 +5,7 @@ namespace Lurch\XO\Command;
 use Doctrine\ORM\EntityManager;
 use Ramsey\Uuid\UuidFactoryInterface;
 
-use Lurch\XO\Entity\{Player};
+use Lurch\XO\Entity\{Game, Player};
 use Lurch\XO\Repository\PlayerRepository;
 use Lurch\XO\Exception\ObjectDoesNotExistsException;
 
@@ -54,6 +54,7 @@ class CreateGameCommandHandler
     if (is_null($player))
       throw new ObjectDoesNotExistsException('Can not create a game cause player does not exists');
 
+    /** @var Game $game */
     $game = $player->createGame($createGameCommand->id);
 
     $this->em->persist($game);

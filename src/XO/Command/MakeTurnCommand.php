@@ -3,7 +3,6 @@
 namespace Lurch\XO\Command;
 
 use Symfony\Component\Validator\Constraints as Assert;
-
 /**
  * Class MakeTurnCommand
  * @package Lurch\XO\Command

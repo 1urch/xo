@@ -23,6 +23,11 @@ class ApiControllerProvider implements ControllerProviderInterface
       return $response;
     });
 
+    $controllers->get('/game/{id}', function (Request $request, string $id) use ($app) {
+      $response = $app['game.controller']->state($request, $app['query.game.state'], $id);
+      return $response;
+    });
+
     // Exception handler prototype
     $app->error(function (\Exception $e) use ($app) {
 

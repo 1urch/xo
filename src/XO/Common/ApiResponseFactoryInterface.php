@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 interface ApiResponseFactoryInterface
 {
-  public function success(array $data = null): JsonResponse;
+  public function success(object $data = null): JsonResponse;
 
   public function error(string $message): JsonResponse;
 }

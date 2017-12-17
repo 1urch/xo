@@ -10,7 +10,7 @@ class ApiResponseFactory implements ApiResponseFactoryInterface
   {
   }
 
-  public function success(array $data = null): JsonResponse
+  public function success(object $data = null): JsonResponse
   {
     $data = [
       'status' => 'success',

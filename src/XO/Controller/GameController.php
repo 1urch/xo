@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\{Request, JsonResponse};
 
 use Lurch\XO\Common\{JsonMapperInterface, ApiResponseFactoryInterface};
 use Lurch\XO\Command\{CreateGameCommand, JoinGameCommand, MakeTurnCommand};
-use Lurch\XO\Query\{GamesListQuery};
+use Lurch\XO\Query\{AvailableGamesQuery, GameStateQuery};
 
 use SimpleBus\Message\Bus\MessageBus;
 use Ramsey\Uuid\UuidFactory;
@@ -33,8 +33,8 @@ class GameController
   /**
    * GameController constructor.
    * @param MessageBus $commandBus
-   * @param JsonMapperInterface $mapper
    * @param UuidFactory $uuidFactory
+   * @param ApiResponseFactoryInterface $response
    */
   public function __construct(MessageBus $commandBus, UuidFactory $uuidFactory, ApiResponseFactoryInterface $response)
   {
@@ -54,7 +54,9 @@ class GameController
     $command = new CreateGameCommand($uuid, $request->request->get('token'));
     $this->commandBus->handle($command);
 
-    $data = ['id' => $uuid];
+    $data = new class { public $id; };
+    $data->id = $uuid;
+
     return $this->response->success($data);
   }
 
@@ -64,7 +66,7 @@ class GameController
    */
   public function join(Request $request, string $id): JsonResponse
   {
-    $command = new JoinGameCommand($request->request->get('token'), $id);
+    $command = new JoinGameCommand($id, $request->request->get('token'));
     $this->commandBus->handle($command);
 
     return $this->response->success();
@@ -84,8 +86,13 @@ class GameController
     return $this->response->success();
   }
 
-  public function list(Request $request, GamesListQuery $gamesListQuery)
+  public function list(Request $request, AvailableGamesQuery $availableGamesQuery)
   {
-    return $this->response->success($gamesListQuery('hello'));
+    return $this->response->success($availableGamesQuery());
+  }
+
+  public function state(Request $request, GameStateQuery $gameStateQuery, string $id)
+  {
+    return $this->response->success($gameStateQuery($id));
   }
 }

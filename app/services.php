@@ -15,7 +15,7 @@ use Lurch\XO\Middleware\MessageBusValidationMiddleware;
 use Lurch\XO\Common\{JsonMapperFacade, ApiResponseFactory};
 
 use Lurch\XO\Entity\{Game, Player};
-use Lurch\XO\Query\{GamesListQuery};
+use Lurch\XO\Query\{AvailableGamesQuery, GameStateQuery};
 use Lurch\XO\Command\{CreateGameCommand, JoinGameCommand, MakeTurnCommand};
 use Lurch\XO\Command\{CreateGameCommandHandler, JoinGameCommandHandler, MakeTurnCommandHandler};
 
@@ -32,19 +32,19 @@ $app['command.game.create'] = function ($app) {
 };
 
 $app['command.game.join'] = function ($app) {
-  return new JoinGameCommandHandler($app['repository.game'], $app['repository.player']);
+  return new JoinGameCommandHandler($app['orm.em'], $app['repository.game'], $app['repository.player']);
 };
 
 $app['command.game.turn'] = function ($app) {
-  return new MakeTurnCommandHandler($app['repository.game'], $app['repository.player']);
+  return new MakeTurnCommandHandler($app['orm.em'], $app['repository.game'], $app['repository.player']);
 };
 
 $app['query.game.list'] = function ($app) {
-  return new GamesListQuery($app['orm.em']);
+  return new AvailableGamesQuery($app['orm.em']);
 };
 
-$app['query.game.status'] = function ($app) {
-
+$app['query.game.state'] = function ($app) {
+  return new GameStateQuery($app['orm.em']);
 };
 
 
