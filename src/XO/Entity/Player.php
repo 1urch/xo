@@ -2,6 +2,7 @@
 
 namespace Lurch\XO\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="Lurch\XO\Repository\PlayerRepository")
@@ -22,6 +23,12 @@ class Player
    * @ORM\Column(type="string")
    */
   private $name;
+
+  /**
+   * @var Collection|Game[]
+   * @ORM\ManyToMany(targetEntity="Lurch\XO\Entity\Game", mappedBy="players")
+   */
+  private $games;
 
   /**
    * Player constructor.
@@ -47,5 +54,15 @@ class Player
   public function getName(): string
   {
     return $this->name;
+  }
+
+  public function getGames()
+  {
+    return $this->games;
+  }
+
+  public function createGame(string $id): Game
+  {
+    return new Game($id, new Board(), $this);
   }
 }

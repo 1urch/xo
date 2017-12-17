@@ -6,19 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Lurch\XO\Exception\{TileDoesNotExistsException, UnableToSetTileException};
 /**
- * @ORM\Entity(repositoryClass="Lurch\XO\Repository\BoardRepository")
- * @ORM\Table(name="xo_board")
+ * Class Board
+ * @package Lurch\XO\Entity
+ * @ORM\Embeddable
  */
 class Board
 {
-  /**
-   * @var string
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="NONE")
-   * @ORM\Column(type="guid")
-   */
-  private $id;
-
   /**
    * @var array
    * @ORM\Column(type="json")
@@ -38,14 +31,6 @@ class Board
     [[0, 0], [1, 1], [2, 2]], // diagonal first
     [[0, 2], [1, 1], [1, 2]]  // diagonal second
   ];
-
-  /**
-   * Board constructor.
-   */
-  public function __construct(string $id)
-  {
-    $this->id = $id;
-  }
 
   /**
    * @param int $x

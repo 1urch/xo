@@ -2,7 +2,7 @@
 
 namespace Lurch\XO\Exception;
 
-class TileDoesNotExistsException extends  \Exception
+class TileDoesNotExistsException extends  \DomainException
 {
 
 }

@@ -5,7 +5,7 @@ namespace Lurch\XO\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Lurch\XO\Exception\{NumberOfPlayersException, WrongStatusException, AlreadyJoinedException, ActionDeniedException};
+use Lurch\XO\Exception\{WrongStatusException, AlreadyJoinedException, ActionDeniedException, UnableToSetTileException};
 /**
  * @ORM\Entity(repositoryClass="Lurch\XO\Repository\GameRepository")
  * @ORM\Table(name="xo_game")
@@ -38,14 +38,13 @@ class Game
 
   /**
    * @var Board;
-   * @ORM\OneToOne(targetEntity="Lurch\XO\Entity\Board")
-   * @ORM\JoinColumn(name="board_id", referencedColumnName="id")
+   * @ORM\Embedded(class="Board", columnPrefix=false)
    */
   private $board;
 
   /**
    * @var Player
-   * @ORM\Column(nullable=true)
+   * @ORM\Column(name="winner_id", nullable=true)
    * @ORM\OneToOne(targetEntity="Lurch\XO\Entity\Player")
    * @ORM\JoinColumn(name="winner_id", referencedColumnName="id")
    */
@@ -64,65 +63,47 @@ class Game
 
   /**
    * Game constructor.
-   *
+   * @param string $id
+   * @param Board $board
+   * @param Player $player
    */
-  public function __construct(string $id, Board $board)
+  public function __construct(string $id, Board $board, Player $player)
   {
     $this->id = $id;
     $this->board = $board;
     $this->players = new ArrayCollection();
     $this->status = self::STATUS_CREATED;
+    $this->players->add($player);
   }
 
   /**
    * @param Player $player
    * @throws WrongStatusException
-   * @throws NumberOfPlayersException
    * @throws AlreadyJoinedException
    */
   public function join(Player $player): void
   {
     if ($this->status !== self::STATUS_CREATED) {
-      throw new WrongStatusException('You can not join the game because it is ' . $this->status);
-    }
-
-    if ($this->players->count() === 2) {
-      throw new NumberOfPlayersException('No more than two players allowed');
+      throw new WrongStatusException('You can not join the game because it has already ' . $this->status);
     }
 
     if ($this->players->contains($player)) {
-      throw new AlreadyJoinedException('You are already joined');
+      throw new AlreadyJoinedException('You have already joined');
     }
 
     $this->players->add($player);
-  }
-
-  /**
-   * @throws WrongStatusException
-   * @throws NumberOfPlayersException
-   */
-  public function start(): void
-  {
-    if ($this->status !== self::STATUS_CREATED) {
-      throw new WrongStatusException('You can not start the game because it is ' . $this->status);
-    }
-
-    if ($this->players->count() < 2) {
-      throw new NumberOfPlayersException('Need at least two players to start');
-    }
-
     $this->status = self::STATUS_PLAYING;
   }
 
   /**
    * @throws WrongStatusException
    * @throws ActionDeniedException
-   * @throws \Lurch\XO\Exception\UnableToSetTileException
+   * @throws UnableToSetTileException
    */
   public function turn(Player $player, $x, $y): void
   {
     if ($this->status !== self::STATUS_PLAYING) {
-      throw new WrongStatusException('You can not make a turn because the game in "' . $this->status . '" status');
+      throw new WrongStatusException('You can not make a turn because the game is in a "' . $this->status . '" status');
     }
 
     if ($player !== $this->getCurrentPlayer()) {

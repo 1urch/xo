@@ -2,7 +2,7 @@
 
 namespace Lurch\XO\Exception;
 
-class UnableToSetTileException extends \Exception
+class UnableToSetTileException extends \DomainException
 {
 
 }
