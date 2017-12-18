@@ -37,6 +37,13 @@ class MakeTurnCommand
    */
   public $y;
 
+  /**
+   * MakeTurnCommand constructor.
+   * @param string $gameId
+   * @param string $playerId
+   * @param int|null $x
+   * @param int|null $y
+   */
   public function __construct(string $gameId, string $playerId, int $x = null, int $y = null)
   {
     $this->gameId = $gameId;

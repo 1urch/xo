@@ -7,10 +7,18 @@ use Silex\Api\ControllerProviderInterface;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class ApiControllerProvider
+ * @package Lurch\XO\Provider
+ */
 class ApiControllerProvider implements ControllerProviderInterface
 {
 
-  public function connect(Application $app)
+  /**
+   * @param Application $app
+   * @return ControllerCollection
+   */
+  public function connect(Application $app): ControllerCollection
   {
     /** @var ControllerCollection $controllers */
     $controllers = $app['controllers_factory'];

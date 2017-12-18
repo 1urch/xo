@@ -24,6 +24,11 @@ class JoinGameCommand
    */
   public $playerId;
 
+  /**
+   * JoinGameCommand constructor.
+   * @param string $gameId
+   * @param string $playerId
+   */
   public function __construct(string $gameId, string $playerId)
   {
     $this->gameId = $gameId;

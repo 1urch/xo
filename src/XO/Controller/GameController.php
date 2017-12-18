@@ -4,13 +4,17 @@ namespace Lurch\XO\Controller;
 
 use Symfony\Component\HttpFoundation\{Request, JsonResponse};
 
-use Lurch\XO\Common\{JsonMapperInterface, ApiResponseFactoryInterface};
+use Lurch\XO\Common\ApiResponseFactoryInterface;
 use Lurch\XO\Command\{CreateGameCommand, JoinGameCommand, MakeTurnCommand};
 use Lurch\XO\Query\{AvailableGamesQuery, GameStateQuery};
 
 use SimpleBus\Message\Bus\MessageBus;
 use Ramsey\Uuid\UuidFactory;
 
+/**
+ * Class GameController
+ * @package Lurch\XO\Controller
+ */
 class GameController
 {
 
@@ -78,20 +82,33 @@ class GameController
    */
   public function turn(Request $request, string $id): JsonResponse
   {
-    $x = $request->request->get('x');
-    $y = $request->request->get('y');
+    $x = is_null($request->request->get('x')) ? null : (int) $request->request->get('x');
+    $y = is_null($request->request->get('y')) ? null : (int) $request->request->get('y');
     $command = new MakeTurnCommand($id, $request->request->get('token'), $x, $y);
     $this->commandBus->handle($command);
 
     return $this->response->success();
   }
 
-  public function list(Request $request, AvailableGamesQuery $availableGamesQuery)
+  /**
+   * @param Request $request
+   * @param AvailableGamesQuery $availableGamesQuery
+   * @return JsonResponse
+   */
+  public function list(Request $request, AvailableGamesQuery $availableGamesQuery): JsonResponse
   {
     return $this->response->success($availableGamesQuery());
   }
 
-  public function state(Request $request, GameStateQuery $gameStateQuery, string $id)
+  /**
+   * @param Request $request
+   * @param GameStateQuery $gameStateQuery
+   * @param string $id
+   * @return JsonResponse
+   * @throws \Doctrine\ORM\NoResultException
+   * @throws \Doctrine\ORM\NonUniqueResultException
+   */
+  public function state(Request $request, GameStateQuery $gameStateQuery, string $id): JsonResponse
   {
     return $this->response->success($gameStateQuery($id));
   }

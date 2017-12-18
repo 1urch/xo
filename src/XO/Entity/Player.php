@@ -56,11 +56,18 @@ class Player
     return $this->name;
   }
 
-  public function getGames()
+  /**
+   * @return Collection|Game[]
+   */
+  public function getGames(): Collection
   {
     return $this->games;
   }
 
+  /**
+   * @param string $id
+   * @return Game
+   */
   public function createGame(string $id): Game
   {
     return new Game($id, new Board(), $this);

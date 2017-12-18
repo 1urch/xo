@@ -28,10 +28,11 @@ class GameStateQuery
 
   /**
    * @param string $id
+   * @return object
    * @throws \Doctrine\ORM\NoResultException
    * @throws \Doctrine\ORM\NonUniqueResultException
    */
-  public function __invoke(string $id)
+  public function __invoke(string $id): object
   {
     $dql = 'SELECT NEW Lurch\XO\DTO\GameStateDTO(game.id, game.board.board, game.winner, game.status, game.turnsMade) '
          . 'FROM Lurch\XO\Entity\Game game WHERE game.id = :id';

@@ -4,30 +4,37 @@ namespace Lurch\XO\Common;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+/**
+ * Class ApiResponseFactory
+ * @package Lurch\XO\Common
+ */
 class ApiResponseFactory implements ApiResponseFactoryInterface
 {
-  public function __construct()
-  {
-  }
 
+  /**
+   * @param object|null $data
+   * @return JsonResponse
+   */
   public function success(object $data = null): JsonResponse
   {
-    $data = [
-      'status' => 'success',
-      'data'   => $data
-    ];
+    $response = new class { public $status; public $data; };
+    $response->status = 'success';
+    $response->data = $data;
 
-    return new JsonResponse($data);
+    return new JsonResponse($response);
   }
 
+  /**
+   * @param string $message
+   * @return JsonResponse
+   */
   public function error(string $message): JsonResponse
   {
-    $data = [
-      'status'  => 'error',
-      'message' => $message
-    ];
+    $response = new class { public $status; public $message; };
+    $response->status = 'error';
+    $response->message = $message;
 
-    return new JsonResponse($data);
+    return new JsonResponse($response);
   }
 
 }

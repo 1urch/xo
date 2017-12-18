@@ -30,6 +30,7 @@ class JoinGameCommandHandler
 
   /**
    * JoinGameCommandHandler constructor.
+   * @param EntityManager $em
    * @param GameRepository $gameRepository
    * @param PlayerRepository $playerRepository
    */

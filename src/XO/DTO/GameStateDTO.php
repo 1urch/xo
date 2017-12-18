@@ -37,7 +37,7 @@ class GameStateDTO
   /**
    * @param Player $player
    */
-  public function addPlayer(Player $player)
+  public function addPlayer(Player $player): void
   {
     $this->players[]['id'] = $player->getId();
 

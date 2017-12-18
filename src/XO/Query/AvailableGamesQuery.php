@@ -15,12 +15,19 @@ class AvailableGamesQuery
    */
   private $em;
 
+  /**
+   * AvailableGamesQuery constructor.
+   * @param EntityManager $em
+   */
   public function __construct(EntityManager $em)
   {
     $this->em = $em;
   }
 
-  public function __invoke(): array
+  /**
+   * @return object
+   */
+  public function __invoke(): object
   {
     $dql = 'SELECT game.id FROM Lurch\XO\Entity\Game game WHERE game.status = :status';
     /** @var Query $query */

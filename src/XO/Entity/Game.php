@@ -84,11 +84,11 @@ class Game
   public function join(Player $player): void
   {
     if ($this->status !== self::STATUS_CREATED) {
-      throw new WrongStatusException('You can not join the game because it has already ' . $this->status);
+      throw new WrongStatusException('Joining denied because the game is in a "' . $this->status . '" status');
     }
 
     if ($this->players->contains($player)) {
-      throw new AlreadyJoinedException('You have already joined');
+      throw new AlreadyJoinedException('Joining denied. You have already joined');
     }
 
     $this->players->add($player);

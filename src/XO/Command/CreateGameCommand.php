@@ -23,6 +23,11 @@ class CreateGameCommand
    */
   public $playerId;
 
+  /**
+   * CreateGameCommand constructor.
+   * @param string $id
+   * @param string $playerId
+   */
   public function __construct(string $id, string $playerId)
   {
     $this->id = $id;

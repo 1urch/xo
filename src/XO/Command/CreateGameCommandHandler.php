@@ -33,6 +33,8 @@ class CreateGameCommandHandler
   /**
    * CreateGameCommandHandler constructor.
    * @param EntityManager $em
+   * @param PlayerRepository $playerRepository
+   * @param UuidFactoryInterface $uuidFactory
    */
   public function __construct(EntityManager $em, PlayerRepository $playerRepository, UuidFactoryInterface $uuidFactory)
   {
