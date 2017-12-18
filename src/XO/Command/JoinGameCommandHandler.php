@@ -5,10 +5,9 @@ namespace Lurch\XO\Command;
 use Doctrine\ORM\EntityManager;
 
 use Lurch\XO\Entity\{Player, Game};
-use Lurch\XO\Repository\{
-  GameRepository, GameRepositoryInterface, PlayerRepository, PlayerRepositoryInterface
-};
+use Lurch\XO\Repository\{GameRepositoryInterface, PlayerRepositoryInterface};
 use Lurch\XO\Exception\ObjectDoesNotExistsException;
+
 /**
  * Class JoinGameCommandHandler
  * @package Lurch\XO\Command

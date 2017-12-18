@@ -1,6 +1,7 @@
 <?php
 
 namespace Lurch\XO\DTO;
+
 use Lurch\XO\Entity\Player;
 
 /**
