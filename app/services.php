@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Ramsey\Uuid\UuidFactory;
 
 use Lurch\XO\Middleware\MessageBusValidationMiddleware;
-use Lurch\XO\Common\{JsonMapperFacade, ApiResponseFactory};
+use Lurch\XO\Common\ApiResponseFactory;
 
 use Lurch\XO\Entity\{Game, Player};
 use Lurch\XO\Query\{AvailableGamesQuery, GameStateQuery};
@@ -28,15 +28,15 @@ $app['repository.player'] = function ($app) {
 };
 
 $app['command.game.create'] = function ($app) {
-  return new CreateGameCommandHandler($app['orm.em'], $app['repository.player'], $app['uuid']);
+  return new CreateGameCommandHandler($app['repository.game'], $app['repository.player']);
 };
 
 $app['command.game.join'] = function ($app) {
-  return new JoinGameCommandHandler($app['orm.em'], $app['repository.game'], $app['repository.player']);
+  return new JoinGameCommandHandler($app['repository.game'], $app['repository.player']);
 };
 
 $app['command.game.turn'] = function ($app) {
-  return new MakeTurnCommandHandler($app['orm.em'], $app['repository.game'], $app['repository.player']);
+  return new MakeTurnCommandHandler($app['repository.game'], $app['repository.player']);
 };
 
 $app['query.game.list'] = function ($app) {

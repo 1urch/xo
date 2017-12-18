@@ -9,12 +9,39 @@ use Lurch\XO\Entity\Player;
  */
 class GameStateDTO
 {
+  /**
+   * @var string
+   */
   public $id;
+
+  /**
+   * @var array
+   */
   public $players;
+
+  /**
+   * @var array
+   */
   public $board;
+
+  /**
+   * @var string
+   */
   public $winner;
+
+  /**
+   * @var string
+   */
   public $status;
+
+  /**
+   * @var int
+   */
   public $turnsMade;
+
+  /**
+   * @var string
+   */
   public $playerTurn;
 
   /**
@@ -25,7 +52,7 @@ class GameStateDTO
    * @param $status
    * @param $turnsMade
    */
-  public function __construct($id, $board, $winner, $status, $turnsMade)
+  public function __construct(string $id, array $board, string $winner = null, string $status, int $turnsMade)
   {
     $this->id = $id;
     $this->board = $board;
