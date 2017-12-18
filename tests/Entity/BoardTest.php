@@ -1,6 +1,6 @@
 <?php
 
-namespace Lurch\Heights\Test;
+namespace Lurch\XO\Test\Entity;
 
 use Lurch\XO\Entity\Board;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +21,7 @@ class BoardTest extends TestCase
    */
   public function testSetTileSuccess(int $x, int $y)
   {
-    $board = new Board($this->id);
+    $board = new Board();
     $board->setTile($x, $y, 1);
 
     $this->assertEquals(1, $board->getTile($x, $y));
@@ -34,7 +34,7 @@ class BoardTest extends TestCase
    */
   public function testSetTileUnavailable(int $x, int $y)
   {
-    $board = new Board($this->id);
+    $board = new Board();
     $board->setTile($x, $y, 1);
     $board->setTile($x, $y, 1);
   }
@@ -45,7 +45,7 @@ class BoardTest extends TestCase
    */
   public function testGetTileDoesNotExists()
   {
-    $board = new Board($this->id);
+    $board = new Board();
     $board->getTile(3,3);
   }
 
@@ -56,7 +56,7 @@ class BoardTest extends TestCase
     $boardProp = $reflection->getProperty('board');
     $boardProp->setAccessible(true);
 
-    $board = new Board($this->id);
+    $board = new Board();
     $boardProp->setValue($board, $boardArray);
 
     $this->assertFalse($board->haveCompletedRow());
@@ -68,7 +68,7 @@ class BoardTest extends TestCase
    */
   public function testHaveCompletedRowTrue($tileOne, $tileTwo, $tileThree)
   {
-    $board = new Board($this->id);
+    $board = new Board();
     $board->setTile($tileOne[0], $tileOne[1], 1);
     $board->setTile($tileTwo[0], $tileTwo[1], 1);
     $board->setTile($tileThree[0], $tileThree[1], 1);
@@ -78,7 +78,7 @@ class BoardTest extends TestCase
 
   public function testIsBoardFullFalse()
   {
-    $board = new Board($this->id);
+    $board = new Board();
     $this->assertFalse($board->isBoardFull());
   }
 
@@ -89,7 +89,7 @@ class BoardTest extends TestCase
     $boardProp = $reflection->getProperty('board');
     $boardProp->setAccessible(true);
 
-    $board = new Board($this->id);
+    $board = new Board();
     $boardProp->setValue($board, $boardArray);
 
     $this->assertTrue($board->isBoardFull());

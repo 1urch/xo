@@ -3,10 +3,9 @@
 namespace Lurch\XO\Command;
 
 use Doctrine\ORM\EntityManager;
-use Ramsey\Uuid\UuidFactoryInterface;
 
 use Lurch\XO\Entity\{Game, Player};
-use Lurch\XO\Repository\PlayerRepository;
+use Lurch\XO\Repository\{PlayerRepositoryInterface, GameRepositoryInterface};
 use Lurch\XO\Exception\ObjectDoesNotExistsException;
 
 /**
@@ -16,31 +15,24 @@ use Lurch\XO\Exception\ObjectDoesNotExistsException;
 class CreateGameCommandHandler
 {
   /**
-   * @var EntityManager
-   */
-  private $em;
-
-  /**
-   * @var PlayerRepository
+   * @var PlayerRepositoryInterface
    */
   private $playerRepository;
 
   /**
-   * @var UuidFactoryInterface
+   * @var GameRepositoryInterface
    */
-  private $uuidFactory;
+  private $gameRepository;
 
   /**
    * CreateGameCommandHandler constructor.
-   * @param EntityManager $em
-   * @param PlayerRepository $playerRepository
-   * @param UuidFactoryInterface $uuidFactory
+   * @param GameRepositoryInterface $gameRepository
+   * @param PlayerRepositoryInterface $playerRepository
    */
-  public function __construct(EntityManager $em, PlayerRepository $playerRepository, UuidFactoryInterface $uuidFactory)
+  public function __construct(GameRepositoryInterface $gameRepository, PlayerRepositoryInterface $playerRepository)
   {
-    $this->em = $em;
+    $this->gameRepository = $gameRepository;
     $this->playerRepository = $playerRepository;
-    $this->uuidFactory = $uuidFactory;
   }
 
   /**
@@ -51,15 +43,13 @@ class CreateGameCommandHandler
   public function handle(CreateGameCommand $createGameCommand): void
   {
     /** @var Player $player */
-    $player = $this->playerRepository->find($createGameCommand->playerId);
+    $player = $this->playerRepository->findById($createGameCommand->playerId);
 
     if (is_null($player))
       throw new ObjectDoesNotExistsException('Can not create a game cause player does not exists');
 
     /** @var Game $game */
     $game = $player->createGame($createGameCommand->id);
-
-    $this->em->persist($game);
-    $this->em->flush();
+    $this->gameRepository->save($game);
   }
 }

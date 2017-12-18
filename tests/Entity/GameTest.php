@@ -1,12 +1,10 @@
 <?php
 
-namespace Lurch\XO\Test;
+namespace Lurch\XO\Test\Entity;
 
 use PHPUnit\Framework\TestCase;
 
-use Lurch\XO\Entity\Board;
 use Lurch\XO\Entity\Game;
-use Lurch\XO\Entity\Player;
 
 class GameTest extends TestCase
 {
@@ -19,7 +17,6 @@ class GameTest extends TestCase
   protected function setUp()
   {
     $this->board = $this->getMockBuilder('Lurch\XO\Entity\Board')
-      ->setConstructorArgs(['e91cb743-12ae-4484-87f4-2392686efb8d'])
       ->getMock();
 
     $this->playerOne = $this->getMockBuilder('Lurch\XO\Entity\Player')
@@ -35,21 +32,9 @@ class GameTest extends TestCase
 
   public function testJoinSuccess()
   {
-    $game = new Game($this->id, $this->board);
-    $game->join($this->playerOne);
+    $game = new Game($this->id, $this->board, $this->playerOne);
     $game->join($this->playerTwo);
     $this->assertAttributeCount(2, 'players', $game);
-  }
-
-  /**
-   * @expectedException \Lurch\XO\Exception\NumberOfPlayersException
-   */
-  public function testJoinPlayersLimitMax()
-  {
-    $game = new Game($this->id, $this->board);
-    $game->join($this->playerOne);
-    $game->join($this->playerTwo);
-    $game->join($this->playerOne);
   }
 
   /**
@@ -57,10 +42,8 @@ class GameTest extends TestCase
    */
   public function testJoinAfterGameStart()
   {
-    $game = new Game($this->id, $this->board);
-    $game->join($this->playerOne);
+    $game = new Game($this->id, $this->board, $this->playerOne);
     $game->join($this->playerTwo);
-    $game->start();
     $game->join($this->playerOne);
   }
 
@@ -69,31 +52,8 @@ class GameTest extends TestCase
    */
   public function testJoinPlayerAlreadyJoined()
   {
-    $game = new Game($this->id, $this->board);
+    $game = new Game($this->id, $this->board, $this->playerOne);
     $game->join($this->playerOne);
-    $game->join($this->playerOne);
-  }
-
-  /**
-   * @expectedException \Lurch\XO\Exception\WrongStatusException
-   */
-  public function testStartAtWrongStatus()
-  {
-    $game = new Game($this->id, $this->board);
-    $game->join($this->playerOne);
-    $game->join($this->playerTwo);
-    $game->start();
-    $game->start();
-  }
-
-  /**
-   * @expectedException \Lurch\XO\Exception\NumberOfPlayersException
-   */
-  public function testStartIncompleteSetOfPlayers()
-  {
-    $game = new Game($this->id, $this->board);
-    $game->join($this->playerOne);
-    $game->start();
   }
 
   /**
@@ -101,7 +61,7 @@ class GameTest extends TestCase
    */
   public function testTurnAtWrongStatus()
   {
-    $game = new Game($this->id, $this->board);
+    $game = new Game($this->id, $this->board, $this->playerOne);
     $game->turn($this->playerOne, 1, 1);
   }
 
@@ -110,11 +70,8 @@ class GameTest extends TestCase
    */
   public function testTurnAtWrongOrder()
   {
-    $game = new Game($this->id, $this->board);
-    $game->join($this->playerOne);
+    $game = new Game($this->id, $this->board, $this->playerOne);
     $game->join($this->playerTwo);
-    $game->start();
-
     $game->turn($this->playerTwo, 1, 1);
   }
 
@@ -128,11 +85,8 @@ class GameTest extends TestCase
       ->method('isBoardFull')
       ->will($this->returnValue(false));
 
-    $game = new Game($this->id, $this->board);
-    $game->join($this->playerOne);
+    $game = new Game($this->id, $this->board, $this->playerOne);
     $game->join($this->playerTwo);
-    $game->start();
-
     $game->turn($this->playerOne, 1, 1);
     $this->assertAttributeEquals(1, 'turnsMade', $game);
   }
@@ -143,11 +97,8 @@ class GameTest extends TestCase
       ->method('haveCompletedRow')
       ->will($this->returnValue(true));
 
-    $game = new Game($this->id, $this->board);
-    $game->join($this->playerOne);
+    $game = new Game($this->id, $this->board, $this->playerOne);
     $game->join($this->playerTwo);
-    $game->start();
-
     $game->turn($this->playerOne, 1, 1);
 
     $this->assertAttributeEquals($game::STATUS_COMPLETE, 'status', $game);
@@ -164,11 +115,8 @@ class GameTest extends TestCase
       ->method('isBoardFull')
       ->will($this->returnValue(true));
 
-    $game = new Game($this->id, $this->board);
-    $game->join($this->playerOne);
+    $game = new Game($this->id, $this->board, $this->playerOne);
     $game->join($this->playerTwo);
-    $game->start();
-
     $game->turn($this->playerOne, 1, 1);
 
     $this->assertAttributeEquals($game::STATUS_COMPLETE, 'status', $game);

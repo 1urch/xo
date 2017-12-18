@@ -1,6 +1,6 @@
 <?php
 
-$app['db.options']     = [
+$app['db.options'] = [
   'driver'   => 'pdo_mysql',
   'user'     => 'root',
   'password' => 'sandbox',
