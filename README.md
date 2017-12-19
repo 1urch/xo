@@ -1,7 +1,7 @@
 # Xs and Os ![coverage](https://img.shields.io/badge/coverage-71%25-yellowgreen.svg)
 An attempt to implement turn-based strategy game
 
-####RU
+#### RU
 
 Это репозиторий моего пет-проекта. Я задумал его, как песочницу для исследования возможностей реализации пошаговой стратегической игры. Целями этого проекта являются: изучение и применение методик и паттернов разработки, проверка гипотез, исследование нововведений php, изучение технологий. Так же этот проект может быть полезен в качестве репрезентации моих навыков разработчика.
 
@@ -17,7 +17,7 @@ An attempt to implement turn-based strategy game
 
 Общение с API приложения осуществляется на основе HTTP протокола (используя методы POST и GET). В качестве ответа сервер предоставляет json данные, структура которых наследует спецификацию jsend.
 
-####EN
+#### EN
 
 This is the repository of my pet-project which i planned out as a sandbox to explore the possibilities of implementing a turn-based strategic game. The purposes of this project are: studying and applying some techniques and development patterns, confirming my hypothesis, exploring language innovations and the research of technologies. Also, this project is a representation of my developer skills.
 
@@ -27,7 +27,7 @@ The application architecture is based on the principle of command-query separati
 
 The application works with Silex framework but is, in general, guided by the CQS principle which is making the architecture framework-agnostic. That would allow changing the framework without much loss.
 
-I used one relational db (MySQL) as a data storage both for reading and writing, and Doctrine ORM as the database abstraction layer.
+The application use one relational db (MySQL) as a data storage both for reading and writing, and Doctrine ORM as the database abstraction layer.
 
 For the convenience of development, i used a docker-based environment.
 
