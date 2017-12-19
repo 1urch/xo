@@ -1,6 +1,8 @@
 # Xs and Os ![coverage](https://img.shields.io/badge/coverage-71%25-yellowgreen.svg)
 An attempt to implement turn-based strategy game
 
+####RU
+
 Это репозиторий моего пет-проекта. Я задумал его, как песочницу для исследования возможностей реализации пошаговой стратегической игры. Целями этого проекта являются: изучение и применение методик и паттернов разработки, проверка гипотез, исследование нововведений php, изучение технологий. Так же этот проект может быть полезен в качестве репрезентации моих навыков разработчика.
 
 Этот репозиторий содержит реализацию серверной части приложения для игры в крестики-нолики. Но это только начало. В планах реализовать гораздо более сложную пошаговую стратегию c гексагональными полями и роботами <img src="https://assets-cdn.github.com/images/icons/emoji/suspect.png" width="20" height="20">.
@@ -15,18 +17,20 @@ An attempt to implement turn-based strategy game
 
 Общение с API приложения осуществляется на основе HTTP протокола (используя методы POST и GET). В качестве ответа сервер предоставляет json данные, структура которых наследует спецификацию jsend.
 
-This is the repository of my pet project. I planned it as a sandbox for exploring the possibilities to implement a turn-based strategic game. The purposes of this project are: studying and applying some techniques and development patterns, confirming hypothesis, exploring language innovations, researching of technologies. Also, this project can be useful as a representation of my developer skills.
+####EN
 
-This repository contains the implementation of tic-tac-toe application server. But this is only the beginning. There are plans to implement a much more complex turn-based strategic game that includes hexagonal fields and robots <img src = "https://assets-cdn.github.com/images/icons/emoji/suspect.png" width = "20" height = "20" >.
+This is the repository of my pet-project which i planned out as a sandbox to explore the possibilities of implementing a turn-based strategic game. The purposes of this project are: studying and applying some techniques and development patterns, confirming my hypothesis, exploring language innovations and the research of technologies. Also, this project is a representation of my developer skills.
 
-The application architecture is based on the principle of command-query separation. This does not mean that the application implements the CQRS pattern, but in the long term the project can acquire it, including Event Sourсing.
+This project implements the tic-tac-toe application server, but there are plans to develop a much more complex turn-based strategic game that includes hexagonal fields and robots <img src = "https://assets-cdn.github.com/images/icons/emoji/suspect.png" width = "20" height = "20" >.
 
-The application works with Silex framework. But in general, guided by the CQS principle, the architecture becomes framework-agnostic. That would allow changing the framework without much loss.
+The application architecture is based on the principle of command-query separation. This does not mean that the application implements the CQRS pattern, but in the long term it can be included, as well as Event Sourсing.
 
-I use one relational db (MySQL) as a data storage both for reading and writing, and Doctrine ORM as the database abstraction layer.
+The application works with Silex framework but is, in general, guided by the CQS principle which is making the architecture framework-agnostic. That would allow changing the framework without much loss.
 
-For the convenience of development, I use a docker-based environment.
+I used one relational db (MySQL) as a data storage both for reading and writing, and Doctrine ORM as the database abstraction layer.
 
-API is built on top of HTTP protocol (using the POST and GET methods). As a response, the server provides json data whose structure inherits the [jsend](https://labs.omniti.com/labs/jsend) specification.
+For the convenience of development, i used a docker-based environment.
+
+API is built on top of HTTP protocol (using the POST and GET methods). In response, the server provides json data which structure inherits the [jsend](https://labs.omniti.com/labs/jsend) specification.
 
  
