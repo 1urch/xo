@@ -1,23 +1,5 @@
 # Xs and Os ![coverage](https://img.shields.io/badge/coverage-71%25-yellowgreen.svg)
-An attempt to implement turn-based strategy game
-
-#### RU
-
-Это репозиторий моего пет-проекта. Я задумал его, как песочницу для исследования возможностей реализации пошаговой стратегической игры. Целями этого проекта являются: изучение и применение методик и паттернов разработки, проверка гипотез, исследование нововведений php, изучение технологий. Так же этот проект может быть полезен в качестве репрезентации моих навыков разработчика.
-
-Этот репозиторий содержит реализацию серверной части приложения для игры в крестики-нолики. Но это только начало. В планах реализовать гораздо более сложную пошаговую стратегию c гексагональными полями и роботами <img src="https://assets-cdn.github.com/images/icons/emoji/suspect.png" width="20" height="20">.
-
-В основе архитектуры приложения лежит принцип разделения команды/запросы. Это не означает, что в приложении реализован паттерн CQRS, но в перспективе проект может обзавестись им, включая Event Soursing.
-
-Приложение работает благодаря фреймворку Silex. Но вообще, руководствуясь CQS принципом я реализовал framework-agnostic архитектуру, что позволит без особых потерь сменить фреймворк, например на Symfony 4.
-
-В качестве хранилища данных для чтения и записи используется одна реляционная БД MySQL, в качестве слоя абстракции БД используется Doctrine ORM.
-
-Для удобства разработки я использую среду основанную на docker контейнерах. 
-
-Общение с API приложения осуществляется на основе HTTP протокола (используя методы POST и GET). В качестве ответа сервер предоставляет json данные, структура которых наследует спецификацию jsend.
-
-#### EN
+##### An attempt to implement turn-based strategy game.
 
 This is the repository of my pet-project which i planned out as a sandbox to explore the possibilities of implementing a turn-based strategic game. The purposes of this project are: studying and applying some techniques and development patterns, confirming my hypothesis, exploring language innovations and the research of technologies. Also, this project is a representation of my developer skills.
 
@@ -31,6 +13,67 @@ The application use one relational db (MySQL) as a data storage both for reading
 
 For the convenience of development, i used a docker-based environment.
 
-API is built on top of HTTP protocol (using the POST and GET methods). In response, the server provides json data which structure inherits the [jsend](https://labs.omniti.com/labs/jsend) specification.
+API is built on top of HTTP protocol. In response, the server provides json data which structure inherits the [jsend](https://labs.omniti.com/labs/jsend) specification.
+
+#### API request / response examples
+
+##### Create game request:
+```
+curl 
+    -F "token=2ed58ec5-bd77-4482-a868-ffd4128a4123" 
+    -X POST http://127.0.0.1/api/game/create
+```
+
+response:
+```
+{
+  "status": "success",
+  "data": {
+    "id": "64395a0d-1fb8-4f54-9f8c-9400d8494e36"
+  }
+}
+```
+##### Make a turn request:
+```
+curl 
+    -F "token=81b18488-b023-4cb0-99e7-b247a4992290" 
+    -F "x=1" 
+    -F "y=1" 
+    -X POST http://127.0.0.1/api/game/c1a78c1c-4b9f-49c2-a4d1-783c5caa6baa/turn
+```
+
+response:
+```
+{
+  "status": "success",
+  "data": null
+}
+```
+
+##### Get game stats request:
+```
+curl -X GET http://127.0.0.1/api/game/b29218e9-2a25-4290-89b4-74bba378d3fa
+```
+
+response:
+```
+{
+  "status": "success",
+  "data": {
+    "game": {
+      "id": "b29218e9-2a25-4290-89b4-74bba378d3fa",
+      "players": [
+        {"id": "2ed58ec5-bd77-4482-a868-ffd4128a4123"},
+        {"id": "81b18488-b023-4cb0-99e7-b247a4992290"}
+      ],
+      "board": [[1,0,0],[0,1,0],[0,0,2]],
+      "winner": null,
+      "status": "playing",
+      "turnsMade": 3,
+      "playerTurn": "81b18488-b023-4cb0-99e7-b247a4992290"
+    }
+  }
+}
+```
 
  
