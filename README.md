@@ -24,7 +24,7 @@ curl
     -X POST http://127.0.0.1/api/game/create
 ```
 
-response:
+##### response:
 ```
 {
   "status": "success",
@@ -42,7 +42,7 @@ curl
     -X POST http://127.0.0.1/api/game/c1a78c1c-4b9f-49c2-a4d1-783c5caa6baa/turn
 ```
 
-response:
+##### response:
 ```
 {
   "status": "success",
@@ -55,7 +55,7 @@ response:
 curl -X GET http://127.0.0.1/api/game/b29218e9-2a25-4290-89b4-74bba378d3fa
 ```
 
-response:
+##### response:
 ```
 {
   "status": "success",
