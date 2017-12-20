@@ -13,9 +13,9 @@ use Lurch\XO\Exception\{WrongStatusException, AlreadyJoinedException, ActionDeni
 class Game
 {
 
-  const STATUS_CREATED  = 'created';
-  const STATUS_PLAYING  = 'playing';
-  const STATUS_COMPLETE = 'complete';
+  const STATUS_CREATED  = 'CREATED';
+  const STATUS_PLAYING  = 'PLAYING';
+  const STATUS_COMPLETE = 'COMPLETE';
 
   /**
    * @var string

@@ -4,6 +4,7 @@ namespace Lurch\XO\Query;
 
 use Doctrine\ORM\{EntityManager, Query};
 use Lurch\XO\Entity\Game;
+use Lurch\XO\Common\DoctrineColumnHydrator;
 /**
  * Class AvailableGamesQuery
  * @package Lurch\XO\Query
@@ -35,7 +36,7 @@ class AvailableGamesQuery
     $query->setParameter('status', Game::STATUS_CREATED);
 
     $result = new class{ public $games; };
-    $result->games = $query->getArrayResult();
+    $result->games = $query->getResult(DoctrineColumnHydrator::class);
 
     return $result;
   }
