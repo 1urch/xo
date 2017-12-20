@@ -2,7 +2,7 @@
 
 namespace Lurch\XO\DTO;
 
-use Lurch\XO\Entity\Player;
+use Lurch\XO\Entity\{Game, Player};
 
 /**
  * Class GameStateDTO
@@ -67,10 +67,10 @@ class GameStateDTO
    */
   public function addPlayer(Player $player): void
   {
-    $this->players[]['id'] = $player->getId();
+    $this->players[] = $player->getId();
 
-    if (count($this->players) > 1) {
-      $this->playerTurn = $this->players[$this->turnsMade % 2]['id'];
+    if (count($this->players) > 1 && $this->status !== Game::STATUS_COMPLETE) {
+      $this->playerTurn = $this->players[$this->turnsMade % 2];
     }
   }
 }

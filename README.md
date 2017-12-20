@@ -33,6 +33,22 @@ curl
   }
 }
 ```
+
+##### Join a game request:
+```
+curl 
+    -F "token=2ed58ec5-bd77-4482-a868-ffd4128a4123" 
+    -X POST http://127.0.0.1/api/game/2ed58ec5-bd77-4482-a868-ffd4128a4123/join
+```
+
+##### response:
+```
+{
+  "status": "success",
+  "data": null
+}
+```
+
 ##### Make a turn request:
 ```
 curl 
@@ -63,8 +79,8 @@ curl -X GET http://127.0.0.1/api/game/b29218e9-2a25-4290-89b4-74bba378d3fa
     "game": {
       "id": "b29218e9-2a25-4290-89b4-74bba378d3fa",
       "players": [
-        {"id": "2ed58ec5-bd77-4482-a868-ffd4128a4123"},
-        {"id": "81b18488-b023-4cb0-99e7-b247a4992290"}
+        "2ed58ec5-bd77-4482-a868-ffd4128a4123",
+        "81b18488-b023-4cb0-99e7-b247a4992290"
       ],
       "board": [[1,0,0],[0,1,0],[0,0,2]],
       "winner": null,
@@ -72,6 +88,24 @@ curl -X GET http://127.0.0.1/api/game/b29218e9-2a25-4290-89b4-74bba378d3fa
       "turnsMade": 3,
       "playerTurn": "81b18488-b023-4cb0-99e7-b247a4992290"
     }
+  }
+}
+```
+
+##### Get available games:
+```
+curl -X GET http://127.0.0.1/api/game
+```
+
+##### response:
+```
+{
+  "status": "success",
+  "data": {
+    "games": [
+      "64395a0d-1fb8-4f54-9f8c-9400d8494e36",
+      "ad6231bc-7922-47b0-997b-ff8e2c68b80d"
+    ]
   }
 }
 ```

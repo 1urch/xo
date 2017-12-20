@@ -8,6 +8,8 @@ use Silex\Provider\ServiceControllerServiceProvider;
 
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 
+use Lurch\XO\Common\DoctrineColumnHydrator;
+
 $app = new Application();
 
 $app->register(new DoctrineServiceProvider());
@@ -25,6 +27,9 @@ $app['orm.em.options'] = [
       'use_simple_annotation_reader' => false
     ],
   ],
+];
+$app['orm.custom.hydration_modes'] = [
+  DoctrineColumnHydrator::class => DoctrineColumnHydrator::class
 ];
 
 return $app;
